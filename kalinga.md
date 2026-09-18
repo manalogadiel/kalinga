@@ -26,6 +26,7 @@ Families with multiple members to coordinate — kids, parents, grandparents —
 | Reminders | Time-based local notifications for assigned tasks |
 | Photo Proof | Attach a photo when completing a task, for fun/accountability |
 | Daily Overview / Offline Analyzer | At-a-glance summary of completed vs. pending tasks per person, computed locally — works with no internet connection |
+| Mood Indicator | Each family member sets their mood (happy / sad / celebrating / neutral), visible to everyone alongside their name |
 | Family Notes | Simple shared message board per person (lightweight, non-real-time "chat") |
 
 ## 6. Hackathon Build Scope (1 hour)
@@ -38,10 +39,11 @@ Given a 1-hour build window, the demo build focuses on the features that best pr
 | 3 | **Task Assignment** | ✅ Built (as seed data) | Tasks in the seed data are pre-assigned (e.g. "Assigned by Mom") and labeled as such in the UI, so the concept is visibly demoed even without a live "Add Task" form |
 | 4 | Mark as Done | ✅ Built | Checkbox, local state |
 | 5 | Daily Overview | ✅ Built | Per-person completed/pending count, computed from the same dataset |
-| 6 | Self-Scheduling (Add Entry form) | 🗒️ Talked about, not built | Explained as part of the vision; seed data already implies it |
-| 7 | Reminders (notifications) | 🗒️ Talked about, not built | Needs platform setup — too risky for 1 hour |
-| 8 | Photo Proof | 🗒️ Talked about, not built | Needs image picker + permissions setup |
-| 9 | Family Notes | 🗒️ Talked about, not built | Lowest priority, cut first |
+| 6 | **Mood Indicator** | ✅ Built | Emoji per person (seed data), shown next to their name in the role switcher/timeline header — no new screen needed |
+| 7 | Self-Scheduling (Add Entry form) | 🗒️ Talked about, not built | Explained as part of the vision; seed data already implies it |
+| 8 | Reminders (notifications) | 🗒️ Talked about, not built | Needs platform setup — too risky for 1 hour |
+| 9 | Photo Proof | 🗒️ Talked about, not built | Needs image picker + permissions setup |
+| 10 | Family Notes | 🗒️ Talked about, not built | Lowest priority, cut first |
 
 **Key decision:** Task assignment stays visible in the demo by baking it into the seed data (e.g., an entry clearly labeled "Take meds — assigned by Mom" with an "Assigned" tag/icon), rather than building a live assignment flow. This proves the concept on-screen without spending build time on form UI.
 
@@ -52,7 +54,8 @@ class Person {
   String id;
   String name;
   String colorHex;
-  String role; // "Parent" | "Kid" | "Grandparent"
+  String role;  // "Parent" | "Kid" | "Grandparent"
+  String mood;  // "happy" | "sad" | "celebrating" | "neutral"
 }
 
 class TimelineEntry {
@@ -68,8 +71,8 @@ class TimelineEntry {
 ```
 
 ## 8. Screens (1-hour build)
-1. **Timeline (Home)** — merged list, color-coded, sorted by time, "Assigned by X" tag on task entries
-2. **Role Switcher** — dropdown/selector filtering the timeline by person
+1. **Timeline (Home)** — merged list, color-coded, sorted by time, "Assigned by X" tag on task entries, mood emoji next to each person's name
+2. **Role Switcher** — dropdown/selector filtering the timeline by person, shows their mood emoji
 3. **Daily Overview** — summary card/header showing completed vs. pending counts per person
 
 ## 9. Suggested Packages
@@ -80,10 +83,11 @@ class TimelineEntry {
 ## 10. 1-Hour Build Timeline
 | Time | Task |
 |------|------|
-| 0–10 min | Data model + 8–10 seed entries across 3 people, including 2–3 pre-assigned tasks |
-| 10–40 min | Timeline screen: list view, color-coded, sorted by time, "Assigned by X" tag |
-| 40–50 min | Role switcher + mark-as-done checkbox |
-| 50–60 min | Daily overview counter at top |
+| 0–10 min | Data model + 8–10 seed entries across 3 people, including 2–3 pre-assigned tasks and a mood per person |
+| 10–35 min | Timeline screen: list view, color-coded, sorted by time, "Assigned by X" tag |
+| 35–45 min | Role switcher + mark-as-done checkbox |
+| 45–52 min | Daily overview counter at top |
+| 52–60 min | Mood emoji next to each person's name |
 
 ## 11. Cut List (if even more time-constrained)
 Cut in this order: Daily overview → Role switcher → keep only the merged timeline with visible task-assignment tags.
